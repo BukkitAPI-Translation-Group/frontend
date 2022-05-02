@@ -1,0 +1,31 @@
+{
+    "name": "javadoc",
+    "version": "1.0.0",
+    "javadoc-js": "dist/javadoc.js",
+    "javadoc-css": "dist/stylesheet.css",
+    "scripts": {
+        "build": "parcel build"
+    },
+    "browserslist": "> 0.5%, last 2 versions, not dead",
+    "targets": {
+        "javadoc-js": {
+            "source": "src/index.js",
+            "context": "browser",
+            "isLibrary": false,
+            "includeNodeModules": true
+        },
+        "javadoc-css": {
+            "source": "src/custom_style.css"
+        }
+    },
+    "devDependencies": {
+        "@parcel/optimizer-data-url": "2.5.0",
+        "@parcel/transformer-inline-string": "2.5.0",
+        "jquery": "3.5.1",
+        "parcel": "^2.5.0"
+    },
+    "dependencies": {
+        "sweetalert2": "11.1.10",
+        "tippy.js": "^6.3.7"
+    }
+}

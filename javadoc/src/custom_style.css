@@ -1,0 +1,21 @@
+@import 'npm:tippy.js/dist/tippy.css';
+@import 'npm:tippy.js/themes/light.css';
+@import './javadoc_stylesheet.css';
+
+.support {
+    margin-left: 10px;
+    display: none;
+    height: 20px;
+    border: none;
+    border-radius: 3px;
+    font-size: 10px;
+    text-decoration: none;
+    text-align: center;
+    color: #ffffff;
+    background-color: #29B6F6;
+}
+
+.ver {
+    margin-left: 5px;
+    margin-right: 5px;
+}
