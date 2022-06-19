@@ -6,7 +6,7 @@
     "scripts": {
         "build": "parcel build"
     },
-    "browserslist": "> 0.5%, last 2 versions, not dead",
+    "browserslist": "> 0.5%, last 2 versions, not dead, not ie > 0, chrome >= 57",
     "targets": {
         "javadoc-js": {
             "source": "src/index.js",
