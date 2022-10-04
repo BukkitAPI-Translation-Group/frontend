@@ -1,21 +1,311 @@
 @import 'npm:tippy.js/dist/tippy.css';
-@import 'npm:tippy.js/themes/light.css';
+@import './tippy_theme_light.css';
 @import './javadoc_stylesheet.css';
 
-.support {
-    margin-left: 10px;
+:root {
+    --modal-bg: #ffffff;
+    --modal-color: #545454;
+}
+
+:root.dark {
+    --modal-bg: #19191a;
+    --modal-color: #e1e1e1;
+}
+
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+
+main {
+    margin: auto;
+    max-width: 1220px;
+}
+
+button {
+    -webkit-appearance: button;
+    text-transform: none;
+    user-select: none;
+    outline: none;
+}
+
+.compatibility-tip {
+    float: right;
+    color: #2bae85;
+    /*#66c18c*/
+    text-decoration: underline;
+    cursor: default;
+}
+
+section.detail {
+    /* 允许在卡片上覆盖叠加层 */
+    position: relative;
+    /* 防止叠加层溢出元素卡片 */
+    overflow: hidden;
+    z-index: 1;
+}
+
+@keyframes blur {
+    from {
+        backdrop-filter: blur(0);
+    }
+    to {
+        /* 避免动画结束时边界区域的闪烁 */
+        left: 0;
+        backdrop-filter: blur(10px);
+    }
+}
+
+@keyframes blur-fadeout {
+    from {
+        backdrop-filter: blur(10px);
+    }
+    to {
+        left: 0;
+        backdrop-filter: blur(0);
+    }
+}
+
+.incompatible-overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    animation: blur 400ms linear forwards;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.incompatible-overlay-without-member-name {
+    top: auto;
+    /* 元素卡片h3元素的底部外边距 */
+    margin-top: -6px;
+}
+
+.incompatible-overlay-fade-out {
+    animation: blur-fadeout 400ms linear forwards;
+}
+
+main {
+    position: relative;
+}
+
+/* 侧边按钮外层容器, 用于横向定位边栏固定位置. */
+.sidebar-container-outer {
+    width: 100%;
+    position: absolute;
+    left: calc(100% - 40px);
+}
+
+.sidebar-container {
+    position: fixed;
+    bottom: 0;
+    height: 100%;
+    z-index: 99;
+    display: flex;
+    flex-flow: wrap;
+    pointer-events: none;
+}
+
+.sidebar-buttons {
+    transform: translate(-40px, calc(100% - 150px));
+    position: relative;
+}
+
+@media (max-width: 1220px) {
+    .sidebar-buttons {
+        transform: translate(-24px, calc(100% - 150px));
+    }
+}
+
+.sidebar-button {
+    pointer-events: auto;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 13px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 45px;
+    width: 45px;
+    border: 1px solid #e3e5e7;
+    margin-bottom: 8px;
+    transform-origin: center;
+    transition: 200ms;
+}
+
+.sidebar-button:active {
+    transform: scale(0.95);
+}
+
+.sidebar-button-top {
     display: none;
-    height: 20px;
-    border: none;
-    border-radius: 3px;
-    font-size: 10px;
-    text-decoration: none;
-    text-align: center;
-    color: #ffffff;
-    background-color: #29B6F6;
 }
 
 .ver {
     margin-left: 5px;
     margin-right: 5px;
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: #0006;
+    transition: background-color 0.1s;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    width: 40em;
+    max-width: 90%;
+    max-height: 80%;
+    background: var(--modal-bg);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    padding: 0 0 1.25em;
+    color: var(--modal-color);
+    animation: modal-show 0.3s;
+}
+
+@keyframes modal-show {
+    0% {
+        transform: scale(0.7);
+    }
+
+    45% {
+        transform: scale(1.05);
+    }
+
+    80% {
+        transform: scale(0.95);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes modal-hide {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+}
+
+:root.dark .modal {
+    border: 1px solid #30363d;
+    box-shadow: 0 8px 24px #010409;
+}
+
+.modal .modal-title {
+    padding: 0.8em 1em 0;
+    margin: 0;
+    text-align: center;
+    font-size: 1.5em;
+    position: relative;
+    font-weight: 600;
+}
+
+.modal .modal-content {
+    text-align: center;
+    margin: 1em 1.6em 0.3em;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+    overflow: auto;
+}
+
+.modal .modal-action {
+    z-index: 1;
+    box-sizing: border-box;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 1.25em auto 0;
+    padding: 0;
+    display: flex;
+    user-select: none;
+}
+
+.modal .modal-button {
+    background: initial;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    background-color: #7367f0;
+    border: 0;
+    border-radius: .25em;
+    font-size: 1em;
+    padding: 0.625em 1.1em;
+
+    margin: .3125em;
+    font-weight: 500;
+    transition: box-shadow 0.5s;
+    box-shadow: 0 0 0 3px #0000;
+}
+
+.modal .modal-button:focus {
+    box-shadow: 0 0 0 3px rgba(115, 103, 240, 0.5);
+}
+
+.modal .modal-button:hover {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1));
+}
+
+.modal .modal-button:active {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2));
+}
+
+ul.check-items {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+ul.check-items li:before {
+    content: "";
+    width: 10px;
+    padding-left: 5px;
+}
+
+ul.check-items li {
+    min-height: 1.8em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 5px;
+    transition: background-color 0.25s, color 0.25s;
+}
+
+ul.check-items li:hover:not(.check-items-checked) {
+    background-color: #f1f1f1;
+    color: #646cff;
+}
+
+ul.check-items li.check-items-checked {
+    font-weight: bold;
+    background-color: var(--color-tab);
+    color: #fff;
 }
